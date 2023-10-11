@@ -1,0 +1,1 @@
+# cpp-cringe-collection
