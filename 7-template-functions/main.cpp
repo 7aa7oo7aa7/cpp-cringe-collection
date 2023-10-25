@@ -32,7 +32,7 @@ int Sum() {
 }
 
 template <uint64_t N>
-uint64_t Fact() {
+constexpr uint64_t Fact() {
     if constexpr (N == 0) {
         return 1;
     } else {
