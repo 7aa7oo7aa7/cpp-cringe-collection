@@ -6,41 +6,19 @@
 class DynArray {
 public:
     // constructor
-    DynArray()
-        : arr_(nullptr)
-        , size_(0)
-        , capacity_(0) {
-    }
-
-    DynArray(size_t size, size_t capacity, int default_value);
+    DynArray();
+    DynArray(size_t size, size_t capacity = 1, int default_value = 0);
 
     // destructor
     ~DynArray();
 
-    size_t Size() const {
-        return size_;
-    }
-
-    int& At(size_t i) {
-        return arr_[i];
-    }
-
-    int At(size_t i) const {
-        return arr_[i];
-    }
+    size_t Size() const;
 
     // operator overloading
-    int& operator[](size_t i) {
-        return arr_[i];
-    }
-
-    int operator[](size_t i) const {
-        return arr_[i];
-    }
-
-    // DynArray operator+(const DynArray& other) {
-        //
-    // }
+    int& At(size_t i);
+    int At(size_t i) const;
+    int& operator[](size_t i);
+    int operator[](size_t i) const;
 
     void PushBack(int value);
 

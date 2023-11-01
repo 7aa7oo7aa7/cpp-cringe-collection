@@ -1,6 +1,12 @@
 #include "dyn_array.h"
 
-DynArray::DynArray(size_t size, size_t capacity = 1, int default_value = 0)
+DynArray::DynArray()
+    : arr_(nullptr)
+    , size_(0)
+    , capacity_(0) {
+}
+
+DynArray::DynArray(size_t size, size_t capacity, int default_value)
     : arr_(new int[capacity])
     , size_(size)
     , capacity_(size > capacity ? size : capacity) {
@@ -15,6 +21,26 @@ DynArray::DynArray(size_t size, size_t capacity = 1, int default_value = 0)
 
 DynArray::~DynArray() {
     delete[] arr_;
+}
+
+size_t DynArray::Size() const {
+    return size_;
+}
+
+int& DynArray::At(size_t i) {
+    return arr_[i];
+}
+
+int DynArray::At(size_t i) const {
+    return arr_[i];
+}
+
+int& DynArray::operator[](size_t i) {
+    return arr_[i];
+}
+
+int DynArray::operator[](size_t i) const {
+    return arr_[i];
 }
 
 void DynArray::Increase(size_t new_capacity) {
