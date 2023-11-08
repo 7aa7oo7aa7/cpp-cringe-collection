@@ -8,10 +8,10 @@ macos: brew install git
 
 Вариант 1:
 git init - создать пустой репозиторий
-git remote add origin <url> - добавить удалённый репозиторий
+git remote add origin URL - добавить удалённый репозиторий
 
 Вариант 2:
-git clone <url> - склонировать удалённый репозиторий
+git clone URL - склонировать удалённый репозиторий
 
 git checkout -b NAME - создать ветку NAME (делайте это из main)
 git checkout NAME - переключиться на ветку NAME
