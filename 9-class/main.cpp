@@ -29,6 +29,52 @@ public:
         delete[] arr_;
     }
 
+    DynArray(const DynArray& other) {
+        // default - copy every field
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        arr_ = new int[other.capacity_];
+        for (size_t i = 0; i < size_; ++i) {
+            arr_[i] = other.arr_[i];
+        }
+    }
+
+    DynArray& operator=(const DynArray& other) {
+        delete[] arr_;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        arr_ = new int[other.capacity_];
+        for (size_t i = 0; i < size_; ++i) {
+            arr_[i] = other.arr_[i];
+        }
+        return *this;
+    }
+
+    // rule of three
+    // destructor, copy constructor, copy assignment operator
+
+    // DynArray&& - rvalue reference
+
+    DynArray(DynArray&& other) {
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        arr_ = other.arr_;
+        other.arr_ = nullptr;
+    }
+
+    DynArray& operator=(DynArray&& other) {
+        delete[] arr_;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        arr_ = other.arr_;
+        other.arr_ = nullptr;
+        return *this;
+    }
+
+    // since C++11 - rule of five
+    // destructor, copy constructor, copy assignment operator
+    // move constructor, move assignment operator
+
     size_t Size() const {
         return size_;
     }
@@ -128,6 +174,15 @@ int main() {
         std::cout << vector[i] << " ";
     }
     std::cout << std::endl;
+
+    DynArray vector1(0);
+    vector1.PushBack(1);
+    vector1.PushBack(2);
+    vector1.PushBack(3);
+    DynArray vector2(vector1);
+    vector2 = vector1;
+    DynArray vector3(DynArray(2));
+    vector3 = DynArray(2);
 
     // arr.Delete();
     return 0;
