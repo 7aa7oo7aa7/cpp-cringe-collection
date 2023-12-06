@@ -1,13 +1,23 @@
 #include <iostream>
+#include <cstring>
+#include <array>
+
+// Array(4){1, 2, 3, 4};
 
 class BigInteger {
 public:
+    explicit BigInteger() {  // NOLINT
+        //
+    }
 private:
     static const int BASE = 1000000;
     int* arr;
 };
 
 BigInteger::BASE;
+
+class RationalDivisionByZero {
+};
 
 class Rational {
 public:
@@ -21,6 +31,15 @@ public:
     Rational operator+(const int& other) {
         Rational this_copy(*this);
         return this_copy += other;
+    }
+
+    Rational operator/(const Rational& other) {
+        // *this / other
+        if (other == 0) {
+            throw RationalDivisionByZero{};
+        }
+        Rational this_copy(*this);
+        return this_copy /= other;
     }
 
     friend Rational operator+(const Rational& left, const Rational& right);
@@ -72,11 +91,42 @@ public:
     bool operator>=(const Rational& other) {
         return *this > other || *this == other;
     }
+
+    friend std::istream& operator>>(std::istream& stream, Rational& value);
+    friend std::ostream& operator<<(std::ostream& stream, const Rational& value);
+
 private:
     BigInteger p;
     BigInteger q;
     bool negative;
 };
+
+std::istream& operator>>(std::istream& stream, Rational& value) {
+    // создать строку или char
+    char* s;
+    char c;
+    // ввести строку (возможно, по символам)
+    stream >> s;
+    // сконвертировать в Rational
+    // <целое число>
+    // {опционально минус}<целое число>/<целое число>
+    return stream;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Rational& value) {
+    // опциально вывести минус, если negative == true
+    // вывести числитель
+    // вывести '/'
+    // вывести знаменатель
+    stream << value.p;
+    return stream;
+}
+
+std::cout << a << b << " " << std::endl;
+(((std::cout << a)
+    << b)
+        << " ")
+            << std::endl;
 
 Rational operator+(const Rational& left, const Rational& right) {
     // a + b = operator+(a, b)
