@@ -124,6 +124,11 @@ public:
         return *this;
     }
 
+    String& operator+=(const String& other) {
+        //
+        return *this;
+    }
+
 private:
     size_t length;
     size_t capacity;
@@ -139,6 +144,16 @@ private:
         capacity *= 2;
     }
 };
+
+// s + "a"
+// "a" + s
+// "a" < s
+String operator+(const String& lhs, const String& rhs);
+String operator<(const String& lhs, const String& rhs);
+
+// std::string a = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+// a += "a";  // O(1)
+// a = a + "a";  // O(N)
 
 // smart pointers
 
@@ -189,6 +204,10 @@ public:
 private:
     int* ptr;
 };
+
+// ptr->field
+// (ptr.operator->())->field
+// ((ptr.operator->()).operator->())->field
 
 // (*ptr).field;
 // ptr->field;
@@ -248,6 +267,7 @@ public:
         --(*counter);
         if (*counter == 0) {
             delete value;
+            delete counter;
         } else {
             // nothing
         }
