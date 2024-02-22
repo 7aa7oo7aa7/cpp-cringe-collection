@@ -264,13 +264,7 @@ public:
     }
 
     ~SharedPtr() {
-        --(*counter);
-        if (*counter == 0) {
-            delete value;
-            delete counter;
-        } else {
-            // nothing
-        }
+        Destroy();
     }
 
     T& operator*() {
@@ -281,9 +275,25 @@ public:
         return value;
     }
 
+    void Reset(T* new_ptr) {
+        //
+        Destroy();
+        //
+    }
+
 private:
     T* value;
     size_t* counter;
+
+    void Destroy() {
+        --(*counter);
+        if (*counter == 0) {
+            delete value;
+            delete counter;
+        } else {
+            // nothing
+        }
+    }
 };
 
 int main() {
@@ -301,6 +311,12 @@ int main() {
     SharedPtr<int> shared_ptr_2(shared_ptr);  // copies and increments counter
     SharedPtr<int> shared_ptr_3(std::move(shared_ptr));  // moves and doesn't increment counter
     SharedPtr<int> shared_ptr_4(shared_ptr.Get());  // BAD, creates new counter
+
+    uni_ptr_2.Reset(uni_ptr.Get());  // BAD
+    uni_ptr_2.Reset(uni_ptr.Release());  // GOOD
+
+    shared_ptr_2.Reset(shared_ptr.Get());  // BAD
+    shared_ptr_2 = SharedPtr<int>(shared_ptr);  // GOOD
 
     return 0;
 }
