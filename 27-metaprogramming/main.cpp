@@ -94,28 +94,9 @@ void PrintIfString(const T& value) {
     }
 }
 
-// SFINAE
-// substitution failure is not an error
-
-template <class T, bool Predicate>
-struct EnableIf {};
-
-template <class T>
-struct EnableIf<T, true> {
-    using value = T;
-};
-
-template <class T, class U = typename EnableIf<T, std::is_same_v<T, int>>::value>
-void f() {
-    U x;
-}
-
 int main() {   
     PrintIfString<int>(1);
     PrintIfString<std::string>("7aa7oo7aa7");
-
-    f<int>();
-    f<double>();
 
     // std::remove_reference;
     // std::is_pointer;
