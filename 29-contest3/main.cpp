@@ -3,6 +3,7 @@
 #include <vector>
 #include <list>
 #include <type_traits>
+#include <tuple>
 
 template <class T>
 void advance(T it, int n) {
@@ -46,6 +47,7 @@ class LRUMap {
 public:
     Value Get(Key key) {
         ++current_time;
+        // if key not found, throw std::out_of_range
         timestamps[key] = current_time;
         return map[key];
     }
@@ -58,10 +60,40 @@ public:
         // replace it with new
         timestamps[key] = current_time;
     }
+
+    size_t Size() const {
+        // don't increment current_time
+        return map.size();
+    }
+
 private:
     std::unordered_map<Key, Value> map;
     std::unordered_map<Key, size_t> timestamps;
     size_t current_time{0};
+    const size_t capacity;
+};
+
+// 1 2 3 4 5
+// 4 6 2 42 999 1
+// 3 3 3 3 3
+
+// zip = (1, 4, 3), (2, 6, 3), (3, 2, 3), (4, 42, 3), (5, 999, 3)
+
+template <class... Args>
+class Zip {
+public:
+    std::tuple<Args::value_type...> operator*() {
+        // pseudocode
+        // std::tie is real
+        for (auto& i : iterators) {
+            value_i = *i;
+        }
+        return std::tie(value1, value2, ..., value_n);
+    }
+
+private:
+    std::tuple<Args::iterator...> iterators;
+    std::tuple<std::conditional_t<std::is_lvalue_reference_v<Args>, const Args&, Args>...> containers;
 };
 
 int main() {
